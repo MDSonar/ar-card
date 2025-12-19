@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+    
+    <style>
+      /* Style for the "Start" button overlay */
+      #start-screen {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8); z-index: 999; display: flex; 
+        justify-content: center; align-items: center; cursor: pointer;
+      }
+      #start-button {
+        padding: 10px 20px; background: white; border-radius: 5px; font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="start-screen">
+      <div id="start-button">Tap to Start AR</div>
+    </div>
+
+    <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      
+      <a-assets>
+        <img id="card" src="your-card-image.jpg" />
+        <img id="icon-linkedin" src="linkedin.png" />
+        <img id="icon-email" src="email.png" />
+        <video id="my-video" src="intro-video.mp4" preload="auto" loop="true"></video>
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <a-entity mindar-image-target="targetIndex: 0">
+        
+        <a-video src="#my-video" position="0 0.5 0" height="0.552" width="1" rotation="0 0 0"></a-video>
+
+        <a-image id="linkedin-btn" src="#icon-linkedin" position="-0.3 -0.5 0" height="0.3" width="0.3" class="clickable"></a-image>
+        
+        <a-image id="email-btn" src="#icon-email" position="0.3 -0.5 0" height="0.3" width="0.3" class="clickable"></a-image>
+
+      </a-entity>
+    </a-scene>
+
+    <script>
+      // Handling the Start Button
+      const startScreen = document.querySelector('#start-screen');
+      const video = document.querySelector('#my-video');
+      
+      startScreen.addEventListener('click', () => {
+        startScreen.style.display = 'none';
+        video.play(); // Allow video to play after user interaction
+      });
+
+      // Handling Link Clicks
+      document.querySelector('#linkedin-btn').addEventListener('click', function (evt) {
+        window.location.href = "https://www.linkedin.com/in/yourprofile";
+      });
+
+      document.querySelector('#email-btn').addEventListener('click', function (evt) {
+        window.location.href = "mailto:you@example.com";
+      });
+    </script>
+  </body>
+</html>
